@@ -1,0 +1,7 @@
+name: FitLife Theme
+type: theme
+base theme: bootstrap5
+description: 'Sportief thema voor FitLife Gym'
+core_version_requirement: ^10 || ^11
+libraries:
+  - fitlife_theme/global-styling

@@ -21,3 +21,11 @@ fitlife_reservatie.mijn_reservaties:
     _title: 'Mijn Reservaties'
   requirements:
     _user_is_logged_in: 'TRUE'
+
+fitlife_reservatie.uitschrijven:
+  path: '/lessen/uitschrijven/{les_id}'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\ReservatieController::uitschrijven'
+    _title: 'Uitschrijven'
+  requirements:
+    _user_is_logged_in: 'TRUE'

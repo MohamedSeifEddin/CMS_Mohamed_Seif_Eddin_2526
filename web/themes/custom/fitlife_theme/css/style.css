@@ -1,0 +1,22 @@
+:root {
+  --fitlife-rood: #e63946;
+  --fitlife-zwart: #1a1a2e;
+  --fitlife-grijs: #f8f9fa;
+}
+
+.navbar {
+  background-color: var(--fitlife-zwart) !important;
+}
+
+.navbar-brand, .nav-link {
+  color: white !important;
+}
+
+.btn-primary {
+  background-color: var(--fitlife-rood) !important;
+  border-color: var(--fitlife-rood) !important;
+}
+
+h1, h2, h3 {
+  color: var(--fitlife-zwart);
+}
