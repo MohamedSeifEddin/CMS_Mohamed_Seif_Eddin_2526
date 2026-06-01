@@ -10,7 +10,7 @@ fitlife_reservatie.reserveer:
   path: '/lessen/reserveer/{les_id}'
   defaults:
     _form: '\Drupal\fitlife_reservatie\Form\ReservatieForm'
-    _title: 'Reserveer een les'
+    _title: ' '
   requirements:
     _user_is_logged_in: 'TRUE'
 
@@ -18,7 +18,7 @@ fitlife_reservatie.mijn_reservaties:
   path: '/mijn-reservaties'
   defaults:
     _controller: '\Drupal\fitlife_reservatie\Controller\ReservatieController::mijnReservaties'
-    _title: 'Mijn Reservaties'
+    _title: ''
   requirements:
     _user_is_logged_in: 'TRUE'
 

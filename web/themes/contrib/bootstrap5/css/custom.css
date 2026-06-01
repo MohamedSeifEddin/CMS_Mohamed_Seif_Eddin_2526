@@ -1,3 +1,6 @@
 .navbar { background-color: #e63946 !important; }
 .btn-primary { background-color: #e63946 !important; border-color: #e63946 !important; }
 h1, h2, h3 { color: #1a1a2e; }
+#fitlife-reservatie-form { text-align: center; }
+#fitlife-reservatie-form .form-actions,
+#fitlife-reservatie-form [data-drupal-selector="edit-actions"] { display: flex; justify-content: center; margin: 30px 0; }
