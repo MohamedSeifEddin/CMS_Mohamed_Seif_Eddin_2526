@@ -1,0 +1,5 @@
+name: 'FitLife Reservatie'
+type: module
+description: 'Reservatiesysteem voor groepslessen bij FitLife Gym'
+core_version_requirement: ^10 || ^11
+package: Custom

@@ -1,0 +1,29 @@
+<?php
+
+function fitlife_reservatie_schema() {
+  $schema['fitlife_lessen'] = [
+    'description' => 'Groepslessen tabel',
+    'fields' => [
+      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE],
+      'naam' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE],
+      'coach' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE],
+      'datum' => ['type' => 'varchar', 'length' => 50, 'not null' => TRUE],
+      'tijdstip' => ['type' => 'varchar', 'length' => 50, 'not null' => TRUE],
+      'capaciteit' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 10],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['fitlife_reservaties'] = [
+    'description' => 'Reservaties tabel',
+    'fields' => [
+      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE],
+      'les_id' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}
