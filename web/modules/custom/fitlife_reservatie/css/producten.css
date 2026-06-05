@@ -1,0 +1,187 @@
+/* === Producten overzicht grid === */
+.view-producten .view-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 28px;
+  max-width: 1100px;
+  margin: 30px auto;
+}
+.view-producten .views-row {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.view-producten .views-row:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+.view-producten .views-row img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.view-producten .views-field-title { padding: 16px 18px 4px; }
+.view-producten .views-field-title a {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-decoration: none;
+}
+.view-producten .views-field-field-merk {
+  padding: 0 18px 8px;
+  color: #888;
+  font-size: 0.9rem;
+}
+.view-producten .views-field-variations-target-id {
+  padding: 14px 18px 20px;
+  margin-top: auto;
+}
+.view-producten .button,
+.view-producten .btn {
+  background: #e63946 !important;
+  border: none !important;
+  color: #fff !important;
+  padding: 11px 24px !important;
+  border-radius: 30px !important;
+  font-weight: 700 !important;
+  width: 100%;
+  box-shadow: 0 4px 14px rgba(230,57,70,0.35);
+}
+.view-producten .button:hover,
+.view-producten .btn:hover { background: #c92d3a !important; }
+.view-producten .views-exposed-form {
+  background: #fff;
+  padding: 22px 26px;
+  border-radius: 14px;
+  max-width: 1100px;
+  margin: 20px auto 30px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  display: flex;
+  gap: 18px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.view-producten .views-exposed-form .form-item { margin: 0; flex: 1; min-width: 180px; }
+.view-producten .views-exposed-form label {
+  font-weight: 700; color: #1a1a2e; font-size: 0.85rem; margin-bottom: 6px; display: block;
+}
+.view-producten .views-exposed-form select,
+.view-producten .views-exposed-form input[type="text"] {
+  width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 0.95rem;
+}
+.view-producten .views-exposed-form .form-actions { display: flex; gap: 10px; flex: 0 0 auto; margin: 0; }
+.view-producten .views-exposed-form .form-actions .button { width: auto !important; white-space: nowrap; }
+.view-producten .views-exposed-form .form-actions .button[data-drupal-selector*="reset"] {
+  background: #6c757d !important; box-shadow: none;
+}
+
+/* === Product detailpagina === */
+.path-product main article {
+  max-width: 1000px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  background: #fff;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+/* Afbeelding links bovenaan */
+.path-product main article .field--name-field-afbeelding {
+  grid-row: 1 / 4;
+  grid-column: 1;
+}
+.path-product main article .field--name-field-afbeelding img {
+  width: 100%;
+  border-radius: 14px;
+}
+/* Titel over volle breedte */
+.path-product main article .field--name-title {
+  grid-column: 1 / 3;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+/* Prijs opvallend */
+.path-product main article .field--name-price .field__item {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #e63946;
+}
+.path-product main article .field--name-price .field__label { display: none; }
+/* Labels netjes */
+.path-product main article .field__label {
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-top: 12px;
+}
+/* Knop */
+.path-product main article .button {
+  background: #e63946 !important;
+  border: none !important;
+  color: #fff !important;
+  padding: 14px 36px !important;
+  border-radius: 30px !important;
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  box-shadow: 0 4px 16px rgba(230,57,70,0.4);
+  margin-top: 16px;
+}
+.path-product main article select {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  min-width: 220px;
+}
+@media (max-width: 768px) {
+  .path-product main article { grid-template-columns: 1fr; }
+  .path-product main article .field--name-field-afbeelding,
+  .path-product main article .field--name-title { grid-column: 1; }
+}
+
+/* === Categorie knoppen === */
+.categorie-knoppen {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  margin: 20px auto 0;
+  padding: 0 4px;
+}
+.categorie-knoppen a {
+  background: #fff;
+  color: #1a1a2e;
+  padding: 10px 22px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: 2px solid #e63946;
+  transition: all 0.2s;
+}
+.categorie-knoppen a:hover {
+  background: #e63946;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Verberg de categorie-dropdown in de exposed form (knoppen vervangen die) */
+.view-producten .views-exposed-form .form-item-field-categorie-target-id {
+  display: none;
+}
+
+/* Prijs op productkaart - gecentreerd en opvallend */
+.view-producten .views-field-price--number {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #e63946;
+  padding: 8px 18px 4px;
+}

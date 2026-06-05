@@ -1,0 +1,4 @@
+producten:
+  css:
+    theme:
+      css/producten.css: {}
