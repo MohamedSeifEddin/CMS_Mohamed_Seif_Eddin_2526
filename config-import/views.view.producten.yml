@@ -24,6 +24,7 @@ display:
     position: 0
     display_options:
       title: Producten
+      group_by: true
       fields:
         field_afbeelding:
           id: field_afbeelding
@@ -72,14 +73,20 @@ display:
           table: commerce_product_variation_field_data
           field: price__number
           relationship: variations_target_id
-          group_type: group
+          group_type: min
           entity_type: commerce_product_variation
           entity_field: price
-          plugin_id: commerce_price_default
+          plugin_id: numeric
           label: ''
           exclude: false
           element_default_classes: true
-          type: commerce_price_default
+          set_precision: true
+          precision: 2
+          decimal: ','
+          separator: '.'
+          format_plural: false
+          prefix: ''
+          suffix: ' €'
         variations_target_id:
           id: variations_target_id
           table: commerce_product__variations
@@ -149,7 +156,7 @@ display:
           table: commerce_product_variation_field_data
           field: price__number
           relationship: variations_target_id
-          group_type: group
+          group_type: min
           admin_label: ''
           entity_type: commerce_product_variation
           entity_field: price

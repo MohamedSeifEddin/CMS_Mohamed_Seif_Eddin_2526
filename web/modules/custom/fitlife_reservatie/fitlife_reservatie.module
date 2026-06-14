@@ -6,19 +6,8 @@
  */
 
 /**
- * Implements hook_views_pre_render().
+ * Implements hook_page_attachments().
  */
-function fitlife_reservatie_views_pre_render($view) {
-  if ($view->id() == 'producten') {
-    $view->element['#attached']['library'][] = 'fitlife_reservatie/producten';
-  }
-}
-
-/**
- * Implements hook_commerce_product_view().
- */
-function fitlife_reservatie_commerce_product_view(array &$build, $entity, $display, $view_mode) {
-  if ($view_mode == 'full') {
-    $build['#attached']['library'][] = 'fitlife_reservatie/producten';
-  }
+function fitlife_reservatie_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'fitlife_reservatie/producten';
 }
