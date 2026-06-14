@@ -2,3 +2,5 @@ producten:
   css:
     theme:
       css/producten.css: {}
+  js:
+    js/contact-modal.js: {}
