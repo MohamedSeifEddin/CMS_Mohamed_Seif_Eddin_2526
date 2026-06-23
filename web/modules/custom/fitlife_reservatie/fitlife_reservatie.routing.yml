@@ -29,3 +29,24 @@ fitlife_reservatie.uitschrijven:
     _title: 'Uitschrijven'
   requirements:
     _user_is_logged_in: 'TRUE'
+fitlife_reservatie.mijn_bestellingen:
+  path: '/mijn-bestellingen'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\AccountRedirectController::bestellingen'
+    _title: 'Mijn bestellingen'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+fitlife_reservatie.mijn_adressen:
+  path: '/mijn-adressen'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\AccountRedirectController::adressen'
+    _title: 'Mijn adressen'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+fitlife_reservatie.mijn_profiel:
+  path: '/mijn-profiel'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\AccountRedirectController::profiel'
+    _title: 'Mijn profiel'
+  requirements:
+    _user_is_logged_in: 'TRUE'
