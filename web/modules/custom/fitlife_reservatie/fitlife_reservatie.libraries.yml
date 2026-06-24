@@ -6,6 +6,7 @@ producten:
   js:
     js/contact-modal.js: {}
     js/cart-auto-update.js: {}
+    js/address-delete-confirm.js: {}
   dependencies:
     - core/drupal
     - core/once

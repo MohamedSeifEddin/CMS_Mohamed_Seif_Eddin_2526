@@ -414,3 +414,57 @@
 .fitlife-modal-close:hover { background: #c92d3a; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+/* === Bevestigings-popup voor adres verwijderen === */
+.fitlife-modal[hidden] { display: none; }
+.fitlife-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.fitlife-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+.fitlife-modal__dialog {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: fitlife-modal-in 0.2s ease-out;
+}
+@keyframes fitlife-modal-in {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.fitlife-modal__title { margin: 0 0 0.5rem; font-size: 1.35rem; color: #1a1a1a; }
+.fitlife-modal__text  { margin: 0 0 1.5rem; color: #555; line-height: 1.5; }
+.fitlife-modal__actions { display: flex; gap: 0.75rem; justify-content: center; }
+.fitlife-modal__btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.65rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.05s ease, filter 0.15s ease;
+}
+.fitlife-modal__btn:active { transform: scale(0.97); }
+.fitlife-modal__btn--cancel  { background: #eceff1; color: #333; }
+.fitlife-modal__btn--cancel:hover  { filter: brightness(0.95); }
+.fitlife-modal__btn--confirm { background: #e03131; color: #fff; }
+.fitlife-modal__btn--confirm:hover { filter: brightness(1.05); }
+body.fitlife-modal-open { overflow: hidden; }
+.fitlife-address--removing { opacity: 0; transition: opacity 0.25s ease; }

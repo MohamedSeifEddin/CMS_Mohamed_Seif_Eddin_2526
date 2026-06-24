@@ -670,3 +670,258 @@
 #edit-completion-message-billing-information .address .organization {
   font-weight: 700;
 }
+
+/* =========================================================
+   9. ADRESBOEK (/user/N/address-book)
+   ========================================================= */
+
+.page-route-commerce-order-address-book-overview .region-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Titel */
+.page-route-commerce-order-address-book-overview h1.page-title {
+  color: var(--fl-zwart);
+  font-weight: 800;
+  text-align: center;
+  margin: 30px 0 22px;
+}
+
+/* "Add address" → prominente rode knop, gecentreerd */
+.page-route-commerce-order-address-book-overview .action-links,
+.page-route-commerce-order-address-book-overview nav.action-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 28px;
+  padding: 0;
+}
+.page-route-commerce-order-address-book-overview .action-links a,
+.page-route-commerce-order-address-book-overview a.button-action {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--fl-rood), var(--fl-rood-donker)) !important;
+  color: #fff !important;
+  font-weight: 700;
+  border: none !important;
+  border-radius: 30px !important;
+  padding: 12px 30px !important;
+  text-decoration: none;
+  box-shadow: var(--fl-shadow-rood);
+  transition: all var(--fl-transition);
+}
+.page-route-commerce-order-address-book-overview .action-links a::before {
+  content: "+ ";
+  font-weight: 800;
+}
+.page-route-commerce-order-address-book-overview .action-links a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(230, 57, 70, .42);
+}
+
+/* Adressen in een grid van kaarten.
+   Commerce wikkelt elk adres + zijn knoppen in een container;
+   we pakken de profielblokken en hun directe ouder. */
+.page-route-commerce-order-address-book-overview .field--name-address,
+.page-route-commerce-order-address-book-overview .layout-content > div {
+  /* veiligheidsnet, echte grid hieronder */
+}
+
+.page-route-commerce-order-address-book-overview .views-element-container,
+.page-route-commerce-order-address-book-overview .layout-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+/* De kaart zelf = het profielblok */
+.page-route-commerce-order-address-book-overview .profile {
+  background: #fff;
+  border-radius: var(--fl-radius);
+  box-shadow: var(--fl-shadow-sm);
+  border-left: 4px solid var(--fl-grijs-rand);
+  padding: 22px 24px;
+  position: relative;
+  transition: transform var(--fl-transition), box-shadow var(--fl-transition);
+}
+.page-route-commerce-order-address-book-overview .profile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--fl-shadow-md);
+}
+
+/* Standaardadres → rood accent + label */
+.page-route-commerce-order-address-book-overview .profile--is-default {
+  border-left-color: var(--fl-rood);
+}
+.page-route-commerce-order-address-book-overview .profile--is-default::before {
+  content: "Standaard";
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--fl-rood);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Adrestekst */
+.page-route-commerce-order-address-book-overview .address {
+  margin: 0;
+  line-height: 1.75;
+  color: var(--fl-zwart);
+}
+.page-route-commerce-order-address-book-overview .address .organization {
+  font-weight: 700;
+  font-size: 1.05rem;
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+/* Edit / Delete / Set as default → nette pill-knopjes */
+.page-route-commerce-order-address-book-overview .profile + div,
+.page-route-commerce-order-address-book-overview .dropbutton-wrapper,
+.page-route-commerce-order-address-book-overview ul.dropbutton {
+  margin-top: 12px;
+}
+.page-route-commerce-order-address-book-overview ul.dropbutton {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  border: none !important;
+  box-shadow: none !important;
+}
+.page-route-commerce-order-address-book-overview ul.dropbutton li {
+  border: none !important;
+  margin: 0;
+}
+.page-route-commerce-order-address-book-overview .dropbutton a,
+.page-route-commerce-order-address-book-overview td.views-field-operations a {
+  display: inline-block;
+  background: #fff;
+  color: var(--fl-zwart) !important;
+  border: 2px solid var(--fl-grijs-rand) !important;
+  border-radius: 20px !important;
+  padding: 6px 16px !important;
+  font-weight: 600;
+  font-size: .88rem;
+  text-decoration: none;
+  transition: all var(--fl-transition);
+}
+.page-route-commerce-order-address-book-overview .dropbutton a:hover {
+  border-color: var(--fl-rood) !important;
+  color: var(--fl-rood) !important;
+}
+.page-route-commerce-order-address-book-overview .dropbutton a[href*="delete"]:hover {
+  background: var(--fl-rood);
+  color: #fff !important;
+  border-color: var(--fl-rood) !important;
+}
+
+/* =========================================================
+   9b. ADRESBOEK — operations-knoppen
+   ========================================================= */
+
+/* Knoppenrij netjes onder de kaart, met wat lucht */
+.page-route-commerce-order-address-book-overview .address-book__operations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 4px 0;
+}
+
+/* Basis-pill voor alle drie de links */
+.page-route-commerce-order-address-book-overview .address-book__edit-link,
+.page-route-commerce-order-address-book-overview .address-book__delete-link,
+.page-route-commerce-order-address-book-overview .address-book__set-default-link {
+  display: inline-block;
+  border-radius: 20px !important;
+  padding: 7px 18px !important;
+  font-weight: 600;
+  font-size: .88rem;
+  text-decoration: none !important;
+  border: 2px solid transparent;
+  transition: all var(--fl-transition);
+}
+
+/* Edit → donkerblauwe outline-pill */
+.page-route-commerce-order-address-book-overview .address-book__edit-link {
+  background: #fff;
+  color: var(--fl-zwart) !important;
+  border-color: var(--fl-zwart) !important;
+}
+.page-route-commerce-order-address-book-overview .address-book__edit-link:hover {
+  background: var(--fl-zwart);
+  color: #fff !important;
+}
+
+/* Delete → outline die rood wordt bij hover */
+.page-route-commerce-order-address-book-overview .address-book__delete-link {
+  background: #fff;
+  color: var(--fl-rood) !important;
+  border-color: var(--fl-rood) !important;
+}
+.page-route-commerce-order-address-book-overview .address-book__delete-link:hover {
+  background: var(--fl-rood);
+  color: #fff !important;
+}
+
+/* Set as default → gevulde, subtiele knop */
+.page-route-commerce-order-address-book-overview .address-book__set-default-link {
+  background: var(--fl-grijs-licht);
+  color: var(--fl-zwart) !important;
+  border-color: var(--fl-grijs-licht) !important;
+}
+.page-route-commerce-order-address-book-overview .address-book__set-default-link:hover {
+  background: linear-gradient(135deg, var(--fl-rood), var(--fl-rood-donker));
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+/* =========================================================
+   9c. ADRESBOEK — Add-knop + correcte grid-wrapper
+   ========================================================= */
+
+/* "Add address" → prominente rode knop */
+.page-route-commerce-order-address-book-overview .address-book__add-link {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--fl-rood), var(--fl-rood-donker)) !important;
+  color: #fff !important;
+  font-weight: 700;
+  border: none !important;
+  border-radius: 30px !important;
+  padding: 12px 30px !important;
+  margin: 0 0 26px;
+  text-decoration: none !important;
+  box-shadow: var(--fl-shadow-rood);
+  transition: all var(--fl-transition);
+}
+.page-route-commerce-order-address-book-overview .address-book__add-link::before {
+  content: "+ ";
+  font-weight: 800;
+}
+.page-route-commerce-order-address-book-overview .address-book__add-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(230, 57, 70, .42);
+}
+
+/* Echte grid-wrapper van de adressen */
+.page-route-commerce-order-address-book-overview .address-book__profiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+/* Elk adres + zijn knoppen netjes als één kolom */
+.page-route-commerce-order-address-book-overview .address-book__profile {
+  display: flex;
+  flex-direction: column;
+}
