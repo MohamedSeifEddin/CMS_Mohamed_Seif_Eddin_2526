@@ -468,3 +468,115 @@
 .fitlife-modal__btn--confirm:hover { filter: brightness(1.05); }
 body.fitlife-modal-open { overflow: hidden; }
 .fitlife-address--removing { opacity: 0; transition: opacity 0.25s ease; }
+/* === FitLife — Bestellingen-tabel (orders) === */
+.view-commerce-user-orders {
+  margin-top: 1rem;
+}
+
+/* Tabel als witte kaart met zachte schaduw. */
+.view-commerce-user-orders table.views-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+
+/* Kop: wit met rode onderlijn. */
+.view-commerce-user-orders table.views-table thead th {
+  background: #fff;
+  border-bottom: 3px solid #e03131;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+}
+
+/* Sorteerlinks in de kop: rood met hover (links blijven werken). */
+.view-commerce-user-orders table.views-table thead th a {
+  color: #e03131;
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.15s ease;
+}
+.view-commerce-user-orders table.views-table thead th a:hover {
+  color: #b71c1c;
+  text-decoration: underline;
+}
+.view-commerce-user-orders table.views-table thead th.is-active a,
+.view-commerce-user-orders table.views-table thead th .tablesort {
+  color: #e03131;
+}
+
+/* Rijen: scheidingslijn + zebra + lichtrode hover.
+   Extra specificiteit zodat Bootstrap's table-striped niet wint. */
+.view-commerce-user-orders table.views-table tbody td {
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid #f2f2f2;
+  color: #333;
+  font-size: 0.95rem;
+}
+.view-commerce-user-orders table.views-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.view-commerce-user-orders table.views-table tbody tr {
+  background: #fff;
+  transition: background 0.15s ease;
+}
+.view-commerce-user-orders table.views-table tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+.view-commerce-user-orders table.views-table tbody tr:hover {
+  background: #fff5f5;
+}
+
+/* Ordernummer-link prominenter. */
+.view-commerce-user-orders table.views-table tbody td a {
+  color: #e03131;
+  font-weight: 600;
+  text-decoration: none;
+}
+.view-commerce-user-orders table.views-table tbody td a:hover {
+  text-decoration: underline;
+}
+
+/* Status als groene badge (afgerond pilletje). */
+.view-commerce-user-orders table.views-table tbody td.views-field-state {
+  font-weight: 600;
+}
+.view-commerce-user-orders table.views-table tbody td.views-field-state {
+  color: #2b8a3e;
+}
+.view-commerce-user-orders table.views-table tbody td.views-field-state {
+  white-space: nowrap;
+}
+.view-commerce-user-orders table.views-table tbody td.views-field-state {
+  /* badge-uiterlijk op de tekst zelf */
+}
+.view-commerce-user-orders table.views-table tbody td.views-field-state {
+  position: relative;
+}
+
+/* Totaalbedrag steviger. */
+.view-commerce-user-orders table.views-table tbody td.views-field-total-price__number,
+.view-commerce-user-orders table.views-table tbody td.views-field-total-price {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Responsive. */
+@media (max-width: 600px) {
+  .view-commerce-user-orders table.views-table thead th,
+  .view-commerce-user-orders table.views-table tbody td {
+    padding: 0.7rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
