@@ -580,3 +580,39 @@ body.fitlife-modal-open { overflow: hidden; }
     font-size: 0.85rem;
   }
 }
+
+/* === Inlogpagina: eigen knoppen i.p.v. tabs === */
+.login-reset { margin: 0.5rem 0 1rem; }
+.login-reset a { color: #e03131; font-weight: 600; text-decoration: none; }
+.login-reset a:hover { text-decoration: underline; }
+
+/* === Checkout: registratie-knop === */
+.checkout-register-cta { margin-top: 1rem; }
+.checkout-register-btn {
+  display: inline-block;
+  padding: 0.55rem 1.2rem;
+  background: #e03131;
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.checkout-register-btn:hover { background: #b71c1c; }
+
+.login-register-btn { margin-left: 0.75rem; vertical-align: middle; }
+
+/* === Registratie- en inlogpagina: nette witte kaart === */
+.user-register-form,
+.user-login-form {
+  max-width: 540px;
+  margin: 2rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+}
+.user-register-form .form-item,
+.user-login-form .form-item {
+  margin-bottom: 1.1rem;
+}
