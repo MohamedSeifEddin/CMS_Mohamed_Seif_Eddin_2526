@@ -82,6 +82,28 @@ function fitlife_reservatie_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 100,
     ];
   }
+
+  // Admin Add user-formulier (/admin/people/create) opschonen.
+  if ($form_id === 'user_register_form'
+    && \Drupal::routeMatch()->getRouteName() === 'user.admin_create') {
+    if (isset($form['account']['status'])) {
+      $form['account']['status']['#access'] = FALSE;
+    }
+    if (isset($form['account']['notify'])) {
+      $form['account']['notify']['#access'] = FALSE;
+    }
+    foreach (['timezone', 'language', 'locale'] as $k) {
+      if (isset($form[$k])) {
+        $form[$k]['#access'] = FALSE;
+      }
+    }
+    if (isset($form['path'])) {
+      $form['path']['#access'] = FALSE;
+    }
+    if (isset($form['actions']['fitlife_login'])) {
+      $form['actions']['fitlife_login']['#access'] = FALSE;
+    }
+  }
 }
 
 /**
@@ -98,6 +120,8 @@ function fitlife_reservatie_preprocess_menu(&$variables) {
   }
 
   $ingelogd = \Drupal::currentUser()->isAuthenticated();
+  $is_admin = in_array('administrator', \Drupal::currentUser()->getRoles(), TRUE);
+  $admin_titels = ['Admin', 'Bestellingen', 'Leden beheren', 'Lessen toevoegen'];
 
   // Titels die bij het account-gedeelte horen (het "Mijn account"-dropdown).
   $account_titels = [
@@ -111,6 +135,12 @@ function fitlife_reservatie_preprocess_menu(&$variables) {
 
   foreach ($variables['items'] as $key => $item) {
     $titel = (string) $item['title'];
+
+    // Admin-menu enkel tonen aan beheerders.
+    if (in_array($titel, $admin_titels, TRUE) && !$is_admin) {
+      unset($variables['items'][$key]);
+      continue;
+    }
 
     if ($ingelogd) {
       // Ingelogd: verberg de "Inloggen"-link.
@@ -134,6 +164,28 @@ function fitlife_reservatie_preprocess_menu(&$variables) {
  * inlog-, registratie- en wachtwoordpagina. We gebruiken eigen knoppen.
  */
 function fitlife_reservatie_menu_local_tasks_alter(&$data, $route_name) {
+  // Op de leden-pagina alleen "List" tonen; de overige tabs verbergen.
+  $verberg_people_tabs = [
+    'user.admin_permissions',
+    'entity.profile.collection',
+    'entity.user_role.collection',
+    'user.role.settings',
+  ];
+  if (isset($data['tabs'][0])) {
+    foreach ($verberg_people_tabs as $tab_id) {
+      if (isset($data['tabs'][0][$tab_id])) {
+        unset($data['tabs'][0][$tab_id]);
+      }
+    }
+  }
+  // Carts-tab verbergen op het bestellingen-overzicht.
+  if (isset($data['tabs'][0])) {
+    foreach ($data['tabs'][0] as $key => $tab) {
+      if (strpos($key, 'commerce_carts') !== FALSE) {
+        unset($data['tabs'][0][$key]);
+      }
+    }
+  }
   $auth_routes = ['user.login', 'user.register', 'user.pass'];
   if (in_array($route_name, $auth_routes, TRUE) && isset($data['tabs'][0])) {
     foreach ($auth_routes as $r) {
@@ -176,4 +228,154 @@ function fitlife_reservatie_preprocess_page(&$variables) {
     $response->send();
     exit;
   }
+}
+
+/**
+ * Implements hook_workflow_alter().
+ *
+ * Vernederlandst de order-statussen: Fulfillment -> In verwerking,
+ * Completed -> Voltooid. Zo zien beheerders en leden Nederlandse labels.
+ */
+function fitlife_reservatie_workflow_alter(array &$workflows) {
+  if (isset($workflows['order_fulfillment'])) {
+    $states = &$workflows['order_fulfillment']['states'];
+    if (isset($states['fulfillment'])) {
+      $states['fulfillment']['label'] = 'In verwerking';
+    }
+    if (isset($states['completed'])) {
+      $states['completed']['label'] = 'Voltooid';
+    }
+    if (isset($states['draft'])) {
+      $states['draft']['label'] = 'Concept';
+    }
+    if (isset($states['canceled'])) {
+      $states['canceled']['label'] = 'Geannuleerd';
+    }
+
+    // Ook de overgangsknoppen een Nederlandse naam geven.
+    $transitions = &$workflows['order_fulfillment']['transitions'];
+    if (isset($transitions['fulfill'])) {
+      $transitions['fulfill']['label'] = 'Markeer als voltooid';
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_local_actions_alter().
+ *
+ * Verbergt de "Create order"-knop op het bestellingen-overzicht.
+ * Bestellingen ontstaan via de webshop, niet handmatig.
+ */
+function fitlife_reservatie_menu_local_actions_alter(&$local_actions) {
+  if (isset($local_actions['entity.commerce_order.add_page'])) {
+    unset($local_actions['entity.commerce_order.add_page']);
+  }
+  // Resend receipt en Reassign order ook verbergen.
+  foreach (['entity.commerce_order.resend_receipt_form', 'entity.commerce_order.reassign_form'] as $id) {
+    if (isset($local_actions[$id])) {
+      unset($local_actions[$id]);
+    }
+  }
+  // Commerce inbox-knop verbergen.
+  if (isset($local_actions['commerce.inbox_message:commerce.inbox_message'])) {
+    unset($local_actions['commerce.inbox_message:commerce.inbox_message']);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() voor het order-bewerkformulier.
+ *
+ * Maakt de admin order-detailpagina alleen-lezen: alle bewerk-, verwijder-
+ * en toevoeg-acties verdwijnen. Enkel de "Fulfill order"-overgang blijft,
+ * zodat de beheerder de bestelling op voltooid kan zetten.
+ */
+function fitlife_reservatie_form_commerce_order_default_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Onderste verwijder-knop weg.
+  if (isset($form['actions']['delete'])) {
+    $form['actions']['delete']['#access'] = FALSE;
+  }
+
+  // Billing information: edit-knop van het inline formulier verbergen.
+  if (isset($form['billing_profile']['widget'][0])) {
+    $bp = &$form['billing_profile']['widget'][0];
+    foreach (['actions', 'edit_button', 'edit'] as $k) {
+      if (isset($bp[$k])) {
+        $bp[$k]['#access'] = FALSE;
+      }
+    }
+    // Render-array van het profiel kan een 'profile' subkey hebben.
+    if (isset($bp['profile']['actions'])) {
+      $bp['profile']['actions']['#access'] = FALSE;
+    }
+  }
+
+  // Order items: edit/delete per regel en "Add order items" verbergen.
+  if (isset($form['order_items']['widget'])) {
+    $widget = &$form['order_items']['widget'];
+    if (isset($widget['actions'])) {
+      $widget['actions']['#access'] = FALSE;
+    }
+    foreach (\Drupal\Core\Render\Element::children($widget) as $key) {
+      if (is_numeric($key)) {
+        foreach (['actions', 'operations'] as $k) {
+          if (isset($widget[$key][$k])) {
+            $widget[$key][$k]['#access'] = FALSE;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/**
+ * Implements hook_preprocess_views_view_field().
+ *
+ * Voegt in het leden-overzicht (user_admin_people) een rol-dropdown toe
+ * achter de Roles-kolom, zodat een beheerder inline een rol kan toevoegen.
+ */
+function fitlife_reservatie_preprocess_views_view_field(&$variables) {
+  $view = $variables['view'];
+  $field = $variables['field'];
+
+  if ($view->id() !== 'user_admin_people' || $field->field !== 'roles_target_id') {
+    return;
+  }
+
+  $user = $variables['row']->_entity ?? NULL;
+  if (!$user) {
+    return;
+  }
+
+  $uid = (int) $user->id();
+  $huidige = $user->getRoles();
+  $opties = ['lid' => 'Lid', 'coach' => 'Coach', 'administrator' => 'Administrator'];
+
+  // Huidige (verwijderbare) rollen tonen met een kruisje.
+  $verwijderbaar = ['lid', 'coach', 'administrator'];
+  $chips = '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">';
+  foreach ($huidige as $r) {
+    if (in_array($r, $verwijderbaar, TRUE)) {
+      $label = $opties[$r] ?? $r;
+      $chips .= '<span style="background:#e9ecef;border-radius:10px;padding:2px 8px;font-size:0.8rem;">'
+        . $label
+        . ' <a href="#" class="fitlife-rol-verwijder" data-uid="' . $uid . '" data-rol="' . $r . '" '
+        . 'style="color:#e03131;text-decoration:none;font-weight:bold;" title="Rol verwijderen">&times;</a>'
+        . '</span>';
+    }
+  }
+  $chips .= '</div>';
+
+  // Dropdown om een rol toe te voegen.
+  $html = $chips . '<div style="margin-top:4px;"><select class="fitlife-rol-select" data-uid="' . $uid . '" style="font-size:0.85rem;">';
+  $html .= '<option value="">+ rol toevoegen</option>';
+  foreach ($opties as $key => $label) {
+    $heeft = in_array($key, $huidige, TRUE) ? ' (heeft al)' : '';
+    $html .= '<option value="' . $key . '">' . $label . $heeft . '</option>';
+  }
+  $html .= '</select></div>';
+
+  // Bestaande output behouden en de dropdown eronder plakken.
+  $bestaand = (string) $variables['output'];
+  $variables['output'] = \Drupal\Core\Render\Markup::create($bestaand . $html);
 }

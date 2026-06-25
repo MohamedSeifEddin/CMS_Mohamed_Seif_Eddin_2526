@@ -50,3 +50,21 @@ fitlife_reservatie.mijn_profiel:
     _title: 'Mijn profiel'
   requirements:
     _user_is_logged_in: 'TRUE'
+
+fitlife_reservatie.rol_toevoegen:
+  path: '/admin/leden/rol-toevoegen'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\LedenController::rolToevoegen'
+    _title: 'Rol toevoegen'
+  methods: [POST]
+  requirements:
+    _permission: 'administer users'
+
+fitlife_reservatie.rol_verwijderen:
+  path: '/admin/leden/rol-verwijderen'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\LedenController::rolVerwijderen'
+    _title: 'Rol verwijderen'
+  methods: [POST]
+  requirements:
+    _permission: 'administer users'

@@ -616,3 +616,14 @@ body.fitlife-modal-open { overflow: hidden; }
 .user-login-form .form-item {
   margin-bottom: 1.1rem;
 }
+
+/* === Order-detailpagina alleen-lezen: bewerk-acties verbergen === */
+/* EDIT-links bij Billing information en Order details. */
+.commerce-edit-link { display: none !important; }
+/* edit / delete per besteld item. */
+.order-item-edit-action,
+.order-item-delete-action { display: none !important; }
+/* "Add order items"-knop. */
+a.button.use-ajax[href*="/form/add-items"] { display: none !important; }
+/* "Cancel order"-knop (Fulfill order blijft staan). */
+a.button.use-ajax[href*="/state/cancel"] { display: none !important; }
