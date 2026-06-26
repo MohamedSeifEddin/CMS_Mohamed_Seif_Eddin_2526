@@ -75,6 +75,21 @@ function fitlife_reservatie_form_alter(&$form, $form_state, $form_id) {
       $form['contact']['#access'] = FALSE;
     }
 
+    // Velden opschonen: beschrijvingen weg, logische volgorde.
+    $acc = &$form['account'];
+    if (isset($acc['name'])) {
+      $acc['name']['#weight'] = -10;
+      $acc['name']['#description'] = '';
+    }
+    if (isset($acc['mail'])) {
+      $acc['mail']['#weight'] = -9;
+      $acc['mail']['#description'] = '';
+    }
+    if (isset($acc['pass'])) {
+      $acc['pass']['#weight'] = -8;
+      $acc['pass']['#description'] = '';
+    }
+
     // "Inloggen"-knop naast de aanmaak-knop (voor wie al lid is).
     $login = \Drupal\Core\Url::fromRoute('user.login')->toString();
     $form['actions']['fitlife_login'] = [
@@ -102,6 +117,51 @@ function fitlife_reservatie_form_alter(&$form, $form_state, $form_id) {
     }
     if (isset($form['actions']['fitlife_login'])) {
       $form['actions']['fitlife_login']['#access'] = FALSE;
+    }
+  }
+
+  // Profiel bewerken (/user/x/edit): versimpelen tot naam, e-mail, wachtwoord.
+  if ($form_id === 'user_form') {
+    // Foto, contact en locale weg.
+    if (isset($form['account']['user_picture'])) {
+      $form['account']['user_picture']['#access'] = FALSE;
+    }
+    if (isset($form['user_picture'])) {
+      $form['user_picture']['#access'] = FALSE;
+    }
+    if (isset($form['contact'])) {
+      $form['contact']['#access'] = FALSE;
+    }
+    foreach (['timezone', 'language', 'locale'] as $k) {
+      if (isset($form[$k])) {
+        $form[$k]['#access'] = FALSE;
+      }
+    }
+
+    $acc = &$form['account'];
+
+    // Username zichtbaar maken en bovenaan.
+    if (isset($acc['name'])) {
+      $acc['name']['#access'] = TRUE;
+      $acc['name']['#weight'] = -10;
+      $acc['name']['#description'] = '';
+    }
+
+    // E-mail niet aanpasbaar maken.
+    if (isset($acc['mail'])) {
+      $acc['mail']['#disabled'] = TRUE;
+      $acc['mail']['#weight'] = -9;
+      $acc['mail']['#description'] = '';
+    }
+
+    // Wachtwoordvelden: volgorde en beschrijvingen weg.
+    if (isset($acc['current_pass'])) {
+      $acc['current_pass']['#weight'] = -8;
+      $acc['current_pass']['#description'] = '';
+    }
+    if (isset($acc['pass'])) {
+      $acc['pass']['#weight'] = -7;
+      $acc['pass']['#description'] = '';
     }
   }
 }
