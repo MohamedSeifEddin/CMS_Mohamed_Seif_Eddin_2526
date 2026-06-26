@@ -13,6 +13,7 @@ class ReservatieController extends ControllerBase {
     $db = Database::getConnection();
     $uid = \Drupal::currentUser()->id();
     $lessen = $db->select('fitlife_lessen', 'l')->fields('l')->execute()->fetchAll();
+    $is_admin = in_array('administrator', \Drupal::currentUser()->getRoles(), TRUE);
 
     $images = [
       'Spinning' => 'https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?w=600',
@@ -30,7 +31,14 @@ class ReservatieController extends ControllerBase {
       $reservaties = $db->select('fitlife_reservaties', 'r')->condition('les_id', $les->id)->countQuery()->execute()->fetchField();
       $vrij = $les->capaciteit - $reservaties;
       $icon = $icons[$les->naam] ?? '💪';
+      // Geüploade foto heeft voorrang; anders naam-gebaseerd of default.
       $img = $images[$les->naam] ?? $default_img;
+      if (!empty($les->foto_fid)) {
+        $file = \Drupal\file\Entity\File::load($les->foto_fid);
+        if ($file) {
+          $img = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        }
+      }
       $percent = round(($reservaties / $les->capaciteit) * 100);
       $bar_color = $percent >= 80 ? '#e63946' : ($percent >= 50 ? '#ff9f1c' : '#2ec4b6');
 
@@ -49,6 +57,21 @@ class ReservatieController extends ControllerBase {
         $actie = '<span style="background:#6c757d;color:#fff;padding:9px 16px;border-radius:30px;font-size:0.85rem;">Volzet</span>';
       }
 
+      // Coachnaam: nieuwe lessen gebruiken coach_uid, oude het tekstveld.
+      $coach_naam = $les->coach;
+      if (!empty($les->coach_uid)) {
+        $cu = \Drupal\user\Entity\User::load($les->coach_uid);
+        if ($cu) {
+          $coach_naam = $cu->getDisplayName();
+        }
+      }
+      // Beheerknop alleen voor admins.
+      $beheer = '';
+      $mag_beheren = $is_admin || ((int) $les->coach_uid === (int) \Drupal::currentUser()->id());
+      if ($mag_beheren) {
+        $bu = Url::fromRoute('fitlife_reservatie.les_beheren', ['les_id' => $les->id])->toString();
+        $beheer = '<div style="text-align:center;margin-top:12px;"><a href="' . $bu . '" style="display:inline-flex;align-items:center;gap:6px;background:#1a1a2e;color:#fff;padding:9px 20px;border-radius:30px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:background 0.15s;">Beheren</a></div>';
+      }
       $cards .= '<div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);width:330px;display:flex;flex-direction:column;">
         <div style="position:relative;height:200px;">
           <img src="'.$img.'" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -59,7 +82,7 @@ class ReservatieController extends ControllerBase {
           </div>
         </div>
         <div style="padding:22px;display:flex;flex-direction:column;flex:1;">
-          <p style="margin:4px 0;color:#444;font-size:1rem;">👨‍🏫 <strong>'.$les->coach.'</strong></p>
+          <p style="margin:4px 0;color:#444;font-size:1rem;">👨‍🏫 <strong>'.$coach_naam.'</strong></p>
           <p style="margin:4px 0;color:#444;font-size:1rem;">📅 '.$les->datum.' &nbsp;⏰ <strong>'.$les->tijdstip.'</strong></p>
           <div style="margin:16px 0 22px;">
             <div style="display:flex;justify-content:space-between;font-size:0.75rem;color:#888;margin-bottom:6px;font-weight:700;letter-spacing:0.5px;">
@@ -70,6 +93,7 @@ class ReservatieController extends ControllerBase {
             </div>
           </div>
           <div style="text-align:center;margin-top:auto;">'.$actie.'</div>
+          '.$beheer.'
         </div>
       </div>';
     }
@@ -118,10 +142,32 @@ class ReservatieController extends ControllerBase {
       if ($les) {
         $aantal++;
         $icon = $icons[$les->naam] ?? '💪';
-        $img = $images[$les->naam] ?? $default_img;
+        // Geüploade foto heeft voorrang; anders naam-gebaseerd of default.
+      $img = $images[$les->naam] ?? $default_img;
+      if (!empty($les->foto_fid)) {
+        $file = \Drupal\file\Entity\File::load($les->foto_fid);
+        if ($file) {
+          $img = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        }
+      }
         $u = Url::fromRoute('fitlife_reservatie.uitschrijven', ['les_id' => $les->id])->toString();
 
-        $cards .= '<div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);width:330px;display:flex;flex-direction:column;">
+        // Coachnaam: nieuwe lessen gebruiken coach_uid, oude het tekstveld.
+      $coach_naam = $les->coach;
+      if (!empty($les->coach_uid)) {
+        $cu = \Drupal\user\Entity\User::load($les->coach_uid);
+        if ($cu) {
+          $coach_naam = $cu->getDisplayName();
+        }
+      }
+      // Beheerknop alleen voor admins.
+      $beheer = '';
+      $mag_beheren = $is_admin || ((int) $les->coach_uid === (int) \Drupal::currentUser()->id());
+      if ($mag_beheren) {
+        $bu = Url::fromRoute('fitlife_reservatie.les_beheren', ['les_id' => $les->id])->toString();
+        $beheer = '<div style="text-align:center;margin-top:12px;"><a href="' . $bu . '" style="display:inline-flex;align-items:center;gap:6px;background:#1a1a2e;color:#fff;padding:9px 20px;border-radius:30px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:background 0.15s;">Beheren</a></div>';
+      }
+      $cards .= '<div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);width:330px;display:flex;flex-direction:column;">
           <div style="position:relative;height:180px;">
             <img src="'.$img.'" style="width:100%;height:100%;object-fit:cover;display:block;">
             <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 35%,rgba(0,0,0,0.75));"></div>
@@ -132,7 +178,7 @@ class ReservatieController extends ControllerBase {
             </div>
           </div>
           <div style="padding:20px;display:flex;flex-direction:column;flex:1;">
-            <p style="margin:4px 0;color:#444;font-size:0.95rem;">👨‍🏫 <strong>'.$les->coach.'</strong></p>
+            <p style="margin:4px 0;color:#444;font-size:0.95rem;">👨‍🏫 <strong>'.$coach_naam.'</strong></p>
             <p style="margin:4px 0 16px;color:#444;font-size:0.95rem;">📅 '.$les->datum.' &nbsp;⏰ <strong>'.$les->tijdstip.'</strong></p>
             <div style="text-align:center;margin-top:auto;">
               <a href="'.$u.'" style="background:#e63946;color:#fff;padding:10px 26px;border-radius:30px;font-weight:700;text-decoration:none;font-size:0.9rem;display:inline-block;">Annuleer reservatie</a>
@@ -164,4 +210,21 @@ class ReservatieController extends ControllerBase {
 
     return ['#markup' => Markup::create($html), '#cache' => ['max-age' => 0]];
   }
+
+  /**
+   * Toegang tot lesbeheer: admins mogen alles, een coach enkel z'n eigen les.
+   */
+  public function lesBeheerToegang($les_id) {
+    $account = \Drupal::currentUser();
+    if (in_array('administrator', $account->getRoles(), TRUE)) {
+      return \Drupal\Core\Access\AccessResult::allowed();
+    }
+    $coach_uid = \Drupal::database()->select('fitlife_lessen', 'l')
+      ->fields('l', ['coach_uid'])
+      ->condition('id', $les_id)
+      ->execute()
+      ->fetchField();
+    return \Drupal\Core\Access\AccessResult::allowedIf((int) $coach_uid === (int) $account->id());
+  }
+
 }

@@ -68,3 +68,27 @@ fitlife_reservatie.rol_verwijderen:
   methods: [POST]
   requirements:
     _permission: 'administer users'
+
+fitlife_reservatie.les_toevoegen:
+  path: '/admin/lessen/toevoegen'
+  defaults:
+    _form: '\Drupal\fitlife_reservatie\Form\LesToevoegenForm'
+    _title: 'Groepsles toevoegen'
+  requirements:
+    _permission: 'administer users'
+
+fitlife_reservatie.les_beheren:
+  path: '/admin/lessen/beheren/{les_id}'
+  defaults:
+    _form: '\Drupal\fitlife_reservatie\Form\LesBeheerForm'
+    _title: 'Les beheren'
+  requirements:
+    _custom_access: '\Drupal\fitlife_reservatie\Controller\ReservatieController::lesBeheerToegang'
+
+fitlife_reservatie.les_verwijderen:
+  path: '/admin/lessen/verwijderen/{les_id}'
+  defaults:
+    _form: '\Drupal\fitlife_reservatie\Form\LesVerwijderForm'
+    _title: 'Les verwijderen'
+  requirements:
+    _custom_access: '\Drupal\fitlife_reservatie\Controller\ReservatieController::lesBeheerToegang'
