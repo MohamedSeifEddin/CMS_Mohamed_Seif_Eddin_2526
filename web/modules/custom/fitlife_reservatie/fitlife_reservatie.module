@@ -338,6 +338,25 @@ function fitlife_reservatie_preprocess_views_view_field(&$variables) {
   $view = $variables['view'];
   $field = $variables['field'];
 
+  // Aantal bestellingen achter de gebruikersnaam tonen.
+  if ($view->id() === 'user_admin_people' && $field->field === 'name') {
+    $user = $variables['row']->_entity ?? NULL;
+    if ($user) {
+      $uid = (int) $user->id();
+      $aantal = (int) \Drupal::entityQuery('commerce_order')
+        ->condition('uid', $uid)
+        ->accessCheck(FALSE)
+        ->count()
+        ->execute();
+      $tekst = $aantal . ' bestelling' . ($aantal === 1 ? '' : 'en');
+      $bestaand = (string) $variables['output'];
+      $variables['output'] = \Drupal\Core\Render\Markup::create(
+        $bestaand . ' <span style="color:#888;font-size:0.85rem;">(' . $tekst . ')</span>'
+      );
+    }
+    return;
+  }
+
   if ($view->id() !== 'user_admin_people' || $field->field !== 'roles_target_id') {
     return;
   }
