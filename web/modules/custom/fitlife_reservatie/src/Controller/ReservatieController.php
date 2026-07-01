@@ -160,13 +160,6 @@ class ReservatieController extends ControllerBase {
           $coach_naam = $cu->getDisplayName();
         }
       }
-      // Beheerknop alleen voor admins.
-      $beheer = '';
-      $mag_beheren = $is_admin || ((int) $les->coach_uid === (int) \Drupal::currentUser()->id());
-      if ($mag_beheren) {
-        $bu = Url::fromRoute('fitlife_reservatie.les_beheren', ['les_id' => $les->id])->toString();
-        $beheer = '<div style="text-align:center;margin-top:12px;"><a href="' . $bu . '" style="display:inline-flex;align-items:center;gap:6px;background:#1a1a2e;color:#fff;padding:9px 20px;border-radius:30px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:background 0.15s;">Beheren</a></div>';
-      }
       $cards .= '<div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,0.12);width:330px;display:flex;flex-direction:column;">
           <div style="position:relative;height:180px;">
             <img src="'.$img.'" style="width:100%;height:100%;object-fit:cover;display:block;">

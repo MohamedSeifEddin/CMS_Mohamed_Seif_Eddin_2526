@@ -48,6 +48,15 @@ class ReservatieForm extends FormBase {
     $percent = round(($reservaties / $les->capaciteit) * 100);
     $bar_color = $percent >= 80 ? '#e63946' : ($percent >= 50 ? '#ff9f1c' : '#2ec4b6');
 
+    // Coachnaam: nieuwe lessen gebruiken coach_uid, oude het tekstveld.
+    $coach_naam = $les->coach;
+    if (empty($les->coach_uid) === FALSE) {
+      $cu = \Drupal\user\Entity\User::load($les->coach_uid);
+      if ($cu) {
+        $coach_naam = $cu->getDisplayName();
+      }
+    }
+
     $header = '<div style="margin:-25px -20px 0;font-family:system-ui,-apple-system,sans-serif;">
       <div style="position:relative;height:280px;overflow:hidden;">
         <img src="'.$img.'" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -61,7 +70,7 @@ class ReservatieForm extends FormBase {
         <div style="max-width:560px;margin:0 auto;">
           <div style="background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.1);padding:28px;">
             <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f0f0;">
-              <span style="color:#888;">👨‍🏫 Coach</span><strong style="color:#1a1a2e;">'.$les->coach.'</strong>
+              <span style="color:#888;">👨‍🏫 Coach</span><strong style="color:#1a1a2e;">'.$coach_naam.'</strong>
             </div>
             <div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #f0f0f0;">
               <span style="color:#888;">📅 Datum</span><strong style="color:#1a1a2e;">'.$les->datum.'</strong>
