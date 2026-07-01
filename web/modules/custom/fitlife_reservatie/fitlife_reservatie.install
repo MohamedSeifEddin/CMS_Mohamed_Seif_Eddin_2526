@@ -1,15 +1,77 @@
 <?php
 
+/**
+ * @file
+ * Installatie- en schemadefinities voor de FitLife Reservatie-module.
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * Definieert de drie eigen tabellen van de module:
+ * - fitlife_lessen: de groepslessen (aangemaakt door beheerders/coaches)
+ * - fitlife_reservaties: wie op welke les ingeschreven is
+ * - fitlife_contact: verzonden contactberichten met opvolgstatus
+ */
 function fitlife_reservatie_schema() {
   $schema['fitlife_lessen'] = [
     'description' => 'Groepslessen tabel',
     'fields' => [
-      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE],
-      'naam' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE],
-      'coach' => ['type' => 'varchar', 'length' => 255, 'not null' => TRUE],
-      'datum' => ['type' => 'varchar', 'length' => 50, 'not null' => TRUE],
-      'tijdstip' => ['type' => 'varchar', 'length' => 50, 'not null' => TRUE],
-      'capaciteit' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE, 'default' => 10],
+      'id' => [
+        'description' => 'Uniek ID van de les.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'naam' => [
+        'description' => 'Naam van de les (bv. Spinning, Yoga).',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'coach' => [
+        'description' => 'Coachnaam als tekst (verouderd; vervangen door coach_uid).',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'datum' => [
+        'description' => 'Datum van de les.',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+      ],
+      'tijdstip' => [
+        'description' => 'Startuur van de les (bv. 20:00).',
+        'type' => 'varchar',
+        'length' => 50,
+        'not null' => TRUE,
+      ],
+      'capaciteit' => [
+        'description' => 'Maximaal aantal deelnemers.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 10,
+      ],
+      'locatie' => [
+        'description' => 'Locatie van de les',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'foto_fid' => [
+        'description' => 'File ID van de lesfoto',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'coach_uid' => [
+        'description' => 'User ID van de toegewezen coach',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
     ],
     'primary key' => ['id'],
   ];
@@ -17,10 +79,80 @@ function fitlife_reservatie_schema() {
   $schema['fitlife_reservaties'] = [
     'description' => 'Reservaties tabel',
     'fields' => [
-      'id' => ['type' => 'serial', 'unsigned' => TRUE, 'not null' => TRUE],
-      'les_id' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
-      'uid' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
-      'created' => ['type' => 'int', 'unsigned' => TRUE, 'not null' => TRUE],
+      'id' => [
+        'description' => 'Uniek ID van de reservatie.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'les_id' => [
+        'description' => 'ID van de gereserveerde les (fitlife_lessen.id).',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'description' => 'User ID van het lid dat reserveerde.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'description' => 'Unix-timestamp van het moment van reserveren.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['fitlife_contact'] = [
+    'description' => 'Contactberichten van bezoekers en leden.',
+    'fields' => [
+      'id' => [
+        'description' => 'Uniek ID van het bericht.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'naam' => [
+        'description' => 'Naam van de afzender.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'email' => [
+        'description' => 'E-mailadres van de afzender.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'onderwerp' => [
+        'description' => 'Onderwerp van het bericht.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+      'bericht' => [
+        'description' => 'De inhoud van het bericht.',
+        'type' => 'text',
+        'not null' => FALSE,
+      ],
+      'status' => [
+        'description' => 'Opvolgstatus: nieuw, in_verwerking of klaar.',
+        'type' => 'varchar',
+        'length' => 20,
+        'not null' => TRUE,
+        'default' => 'nieuw',
+      ],
+      'aangemaakt' => [
+        'description' => 'Unix-timestamp van verzending.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
     ],
     'primary key' => ['id'],
   ];
