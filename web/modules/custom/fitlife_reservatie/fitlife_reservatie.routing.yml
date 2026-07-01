@@ -92,3 +92,27 @@ fitlife_reservatie.les_verwijderen:
     _title: 'Les verwijderen'
   requirements:
     _custom_access: '\Drupal\fitlife_reservatie\Controller\ReservatieController::lesBeheerToegang'
+
+fitlife_reservatie.contact_overzicht:
+  path: '/admin/contactberichten'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\LedenController::contactOverzicht'
+    _title: 'Contactberichten'
+  requirements:
+    _permission: 'administer users'
+
+fitlife_reservatie.contact_status:
+  path: '/admin/contactberichten/status'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\LedenController::contactStatus'
+  methods: [POST]
+  requirements:
+    _permission: 'administer users'
+
+fitlife_reservatie.contact_verwijderen:
+  path: '/admin/contactberichten/verwijderen'
+  defaults:
+    _controller: '\Drupal\fitlife_reservatie\Controller\LedenController::contactVerwijderen'
+  methods: [POST]
+  requirements:
+    _permission: 'administer users'

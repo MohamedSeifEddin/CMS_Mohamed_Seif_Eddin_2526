@@ -5,20 +5,20 @@
     if (params.get('verzonden') !== '1') return;
 
     var overlay = document.createElement('div');
-    overlay.className = 'fitlife-modal-overlay';
+    overlay.className = 'fitlife-contact-overlay';
     overlay.innerHTML =
-      '<div class="fitlife-modal">' +
-        '<div class="fitlife-modal-icon">✅</div>' +
+      '<div class="fitlife-contact-modal">' +
+        '<div class="fitlife-contact-icon">✅</div>' +
         '<h2>Bericht verzonden!</h2>' +
         '<p>Bedankt voor je bericht. We nemen zo snel mogelijk contact met je op.</p>' +
-        '<button class="fitlife-modal-close">Sluiten</button>' +
+        '<button class="fitlife-contact-close">Sluiten</button>' +
       '</div>';
     document.body.appendChild(overlay);
 
     function sluit() {
       window.location.href = '/';
     }
-    overlay.querySelector('.fitlife-modal-close').addEventListener('click', sluit);
+    overlay.querySelector('.fitlife-contact-close').addEventListener('click', sluit);
     overlay.addEventListener('click', function (e) {
       if (e.target === overlay) sluit();
     });

@@ -8,6 +8,7 @@ producten:
     js/cart-auto-update.js: {}
     js/address-delete-confirm.js: {}
     js/rol-dropdown.js: {}
+    js/contact-beheer.js: {}
   dependencies:
     - core/drupal
     - core/once

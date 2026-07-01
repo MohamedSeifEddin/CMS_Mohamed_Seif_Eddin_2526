@@ -376,44 +376,6 @@
   box-shadow: 0 4px 16px rgba(230,57,70,0.4);
 }
 
-/* ====== CONTACT MODAL ====== */
-.fitlife-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(26,26,46,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeIn 0.2s ease;
-}
-.fitlife-modal {
-  background: #fff;
-  border-radius: 18px;
-  padding: 44px 40px;
-  text-align: center;
-  max-width: 420px;
-  margin: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-  animation: popIn 0.25s ease;
-}
-.fitlife-modal-icon { font-size: 3.5rem; margin-bottom: 10px; }
-.fitlife-modal h2 { color: #1a1a2e; font-weight: 800; margin: 0 0 10px; }
-.fitlife-modal p { color: #666; margin: 0 0 24px; line-height: 1.5; }
-.fitlife-modal-close {
-  background: #e63946;
-  border: none;
-  color: #fff;
-  padding: 12px 34px;
-  border-radius: 30px;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(230,57,70,0.4);
-}
-.fitlife-modal-close:hover { background: #c92d3a; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 /* === Bevestigings-popup voor adres verwijderen === */
 .fitlife-modal[hidden] { display: none; }
 .fitlife-modal {
@@ -653,4 +615,123 @@ a.button.use-ajax[href*="/state/cancel"] { display: none !important; }
 }
 .user-form .form-submit:hover {
   background: #b71c1c;
+}
+
+/* === Contactbevestiging: eigen popup (unieke klassen) === */
+.fitlife-contact-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 46, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+.fitlife-contact-modal {
+  background: #fff;
+  border-radius: 18px;
+  padding: 44px 40px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.fitlife-contact-icon { font-size: 3.5rem; line-height: 1; }
+.fitlife-contact-modal h2 {
+  margin: 0;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #1a1a2e;
+}
+.fitlife-contact-modal p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.fitlife-contact-close {
+  margin-top: 10px;
+  background: #e63946;
+  border: none;
+  color: #fff;
+  padding: 12px 34px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(230, 57, 70, 0.4);
+}
+.fitlife-contact-close:hover { background: #c92d3a; }
+
+/* === Contactberichten admin-overzicht === */
+.fitlife-contact-tabel {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.fitlife-contact-tabel thead tr {
+  background: #f1f3f5;
+  color: #1a1a2e;
+  text-align: left;
+}
+.fitlife-contact-tabel thead th {
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+.fitlife-contact-tabel thead th a { color: #1a1a2e; text-decoration: none; }
+.fitlife-contact-tabel thead th a:hover { text-decoration: underline; }
+.fitlife-contact-tabel tbody td {
+  padding: 14px 16px;
+  font-size: 0.92rem;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+}
+.fitlife-contact-tabel tbody tr:last-child td { border-bottom: 0; }
+.fitlife-contact-tabel tbody tr:hover { background: #f8f9fb; }
+.fitlife-contact-bekijk { color: #1a1a2e !important; font-weight: 600; }
+.fitlife-contact-status {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #fff;
+}
+.fitlife-contact-verwijder {
+  color: #e03131 !important;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none !important;
+}
+.fitlife-contact-filter {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 20px;
+}
+.fitlife-contact-filter a {
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+/* Header-tekst contactberichten geforceerd zwart */
+.fitlife-contact-tabel thead th,
+.fitlife-contact-tabel thead th a {
+  color: #1a1a2e !important;
 }
