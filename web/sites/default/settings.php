@@ -897,3 +897,12 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
 # if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
 #   include $app_root . '/' . $site_path . '/settings.local.php';
 # }
+
+/**
+ * Pantheon-omgeving: laad de instellingen van het hostingplatform
+ * (databaseverbinding, hash salt, bestandspaden). Wordt enkel
+ * uitgevoerd op Pantheon zelf, nooit lokaal.
+ */
+if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(__DIR__ . '/settings.pantheon.php')) {
+  include __DIR__ . '/settings.pantheon.php';
+}
