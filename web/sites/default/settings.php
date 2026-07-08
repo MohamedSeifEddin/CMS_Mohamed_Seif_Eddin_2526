@@ -906,3 +906,6 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
 if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(__DIR__ . '/settings.pantheon.php')) {
   include __DIR__ . '/settings.pantheon.php';
 }
+
+// TIJDELIJK: toon volledige foutmeldingen (weghalen na debuggen).
+$config['system.logging']['error_level'] = 'verbose';
