@@ -909,3 +909,6 @@ if (isset($_ENV['PANTHEON_ENVIRONMENT']) && file_exists(__DIR__ . '/settings.pan
 
 // TIJDELIJK: toon volledige foutmeldingen (weghalen na debuggen).
 $config['system.logging']['error_level'] = 'verbose';
+
+// TIJDELIJK: toon volledige foutmeldingen (weghalen na debuggen).
+$config['system.logging']['error_level'] = 'verbose';
