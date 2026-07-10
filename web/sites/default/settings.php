@@ -915,3 +915,16 @@ $config['system.logging']['error_level'] = 'verbose';
 
 // TIJDELIJK: toon volledige foutmeldingen (weghalen na debuggen).
 $config['system.logging']['error_level'] = 'verbose';
+
+/**
+ * Fix voor een bekend Pantheon + Drupal 11 probleem (drupal.org 3516912):
+ * het platform injecteert een PantheonServiceProvider die een
+ * 'cache.pantheon'-service registreert met een verouderde MemoryBackend-
+ * definitie (zonder argumenten). Op Drupal 11 crasht elke cache rebuild
+ * en database-update daardoor. We schakelen de provider uit; het enige
+ * gevolg is dat de Pantheon edge-cache niet meer automatisch geleegd
+ * wordt bij een rebuild.
+ */
+if (isset($_ENV['PANTHEON_ENVIRONMENT'])) {
+  unset($GLOBALS['conf']['container_service_providers']['PantheonServiceProvider']);
+}
