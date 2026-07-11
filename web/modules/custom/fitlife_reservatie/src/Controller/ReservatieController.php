@@ -67,7 +67,11 @@ class ReservatieController extends ControllerBase {
       }
       // Beheerknop alleen voor admins.
       $beheer = '';
-      $mag_beheren = $is_admin || ((int) $les->coach_uid === (int) \Drupal::currentUser()->id());
+      // Enkel een ingelogde gebruiker (uid groter dan 0) kan als coach gelden.
+      // Zonder die controle zag een anonieme bezoeker (uid 0) de knop bij
+      // lessen zonder toegewezen coach, want (int) NULL is ook 0.
+      $huidige_uid = (int) \Drupal::currentUser()->id();
+      $mag_beheren = $is_admin || ($huidige_uid > 0 && (int) $les->coach_uid === $huidige_uid);
       if ($mag_beheren) {
         $bu = Url::fromRoute('fitlife_reservatie.les_beheren', ['les_id' => $les->id])->toString();
         $beheer = '<div style="text-align:center;margin-top:12px;"><a href="' . $bu . '" style="display:inline-flex;align-items:center;gap:6px;background:#1a1a2e;color:#fff;padding:9px 20px;border-radius:30px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:background 0.15s;">Beheren</a></div>';
@@ -217,7 +221,9 @@ class ReservatieController extends ControllerBase {
       ->condition('id', $les_id)
       ->execute()
       ->fetchField();
-    return \Drupal\Core\Access\AccessResult::allowedIf((int) $coach_uid === (int) $account->id());
+    // uid groter dan 0 verplicht: anders kreeg een anonieme bezoeker (uid 0)
+    // toegang tot het beheer van lessen zonder coach_uid (NULL wordt ook 0).
+    return \Drupal\Core\Access\AccessResult::allowedIf($account->id() > 0 && (int) $coach_uid === (int) $account->id())->cachePerUser();
   }
 
 }
