@@ -515,3 +515,23 @@ function fitlife_reservatie_form_commerce_order_item_add_to_cart_form_alter(&$fo
     $form['quantity']['widget'][0]['value']['#title'] = t('Aantal');
   }
 }
+
+/**
+ * Implements hook_user_login().
+ *
+ * Stuurt gebruikers na het inloggen naar de homepage in plaats van
+ * hun profielpagina. Een bestaande bestemming (bv. terugkeer naar een
+ * reservatieformulier via de destination-parameter) en de
+ * wachtwoord-reset-flow blijven gerespecteerd.
+ */
+function fitlife_reservatie_user_login($account) {
+  $request = \Drupal::request();
+  if ($request->query->has('destination')) {
+    return;
+  }
+  $route = \Drupal::routeMatch()->getRouteName();
+  if (in_array($route, ['user.reset', 'user.reset.login'], TRUE)) {
+    return;
+  }
+  $request->query->set('destination', '/');
+}
