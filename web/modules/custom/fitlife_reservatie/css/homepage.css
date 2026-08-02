@@ -1,0 +1,149 @@
+/* FitLife Gym - homepage v2 (zakelijk, zonder emojis). */
+
+.fl-home { max-width: 1140px; margin: 0 auto; }
+
+.fl-home-hero {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #1a1a2e url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600') center/cover no-repeat;
+  padding: 130px 40px 150px;
+  text-align: center;
+  color: #fff;
+}
+.fl-home-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(20, 20, 38, 0.92) 0%, rgba(15, 52, 96, 0.65) 100%);
+}
+.fl-home-hero > * { position: relative; }
+.fl-home-kicker {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ff8f9a;
+  border: 1px solid rgba(255, 143, 154, 0.45);
+  border-radius: 30px;
+  padding: 7px 18px;
+  margin-bottom: 18px;
+}
+.fl-home-hero h1 {
+  font-size: 3.4rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #fff;
+  margin: 0 0 12px;
+}
+.fl-home-hero .fl-home-tagline {
+  font-size: 1.15rem;
+  color: #dfe3ee;
+  max-width: 620px;
+  margin: 0 auto 30px;
+  line-height: 1.6;
+}
+.fl-home-hero .fl-btn,
+.fl-home-hero .fl-btn-outline { transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.fl-home-hero .fl-btn:hover,
+.fl-home-hero .fl-btn-outline:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35); }
+
+.fl-home-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: -46px 16px 0;
+  position: relative;
+  z-index: 2;
+}
+.fl-home-stat {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.14);
+  padding: 18px 30px;
+  text-align: center;
+  min-width: 210px;
+}
+.fl-home-stat strong { display: block; font-size: 1.35rem; font-weight: 800; color: #e63946; }
+.fl-home-stat span { color: #555; font-size: 0.9rem; }
+
+.fl-home-sectiekop { text-align: center; margin: 56px 0 6px; }
+.fl-home-sectiekop .fl-home-kickertje {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #e63946;
+}
+.fl-home-sectiekop h2 { margin: 6px 0 24px; font-weight: 800; color: #1a1a2e; font-size: 1.9rem; }
+
+.fl-home-kaarten {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  justify-content: center;
+  margin: 0 0 10px;
+}
+.fl-home-kaart {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.10);
+  overflow: hidden;
+  width: 340px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.fl-home-kaart:hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.16); }
+.fl-home-kaart .fl-home-kaart-foto { overflow: hidden; border-bottom: 4px solid #e63946; }
+.fl-home-kaart img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.fl-home-kaart:hover img { transform: scale(1.05); }
+.fl-home-kaart-inhoud { padding: 24px 26px 26px; }
+.fl-home-kaart h3 { margin: 0 0 8px; color: #1a1a2e; font-size: 1.25rem; font-weight: 700; }
+.fl-home-kaart p { color: #666; margin: 0 0 16px; line-height: 1.55; }
+.fl-home-kaart a {
+  color: #e63946;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.3px;
+}
+.fl-home-kaart a:hover { text-decoration: underline; }
+
+.fl-home-waarom {
+  background: linear-gradient(150deg, #171728, #1c2f52);
+  border-radius: 28px;
+  padding: 56px 46px;
+  color: #fff;
+  margin: 50px 0;
+}
+.fl-home-waarom h2 { color: #fff; font-weight: 800; margin: 0 0 34px; text-align: center; font-size: 1.9rem; }
+.fl-home-punten {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 30px 40px;
+}
+.fl-home-punt { position: relative; padding-left: 58px; }
+.fl-home-punt .fl-home-nr {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #e63946;
+  line-height: 1;
+}
+.fl-home-punt h4 { color: #fff; margin: 0 0 6px; font-size: 1.05rem; font-weight: 700; }
+.fl-home-punt p { color: #c7ccd9; margin: 0; font-size: 0.95rem; line-height: 1.55; }
+
+@media (max-width: 800px) {
+  .fl-home-hero { padding: 80px 24px 110px; }
+  .fl-home-hero h1 { font-size: 2.3rem; }
+}

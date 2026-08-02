@@ -3,6 +3,8 @@ producten:
     theme:
       css/producten.css: {}
       css/cart-checkout.css: {}
+      css/homepage.css: {}
+      css/over-ons.css: {}
   js:
     js/contact-modal.js: {}
     js/cart-auto-update.js: {}

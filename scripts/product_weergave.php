@@ -34,6 +34,14 @@ foreach ($displays as $display) {
     $component['region'] = 'content';
     $display->setComponent($veld, $component);
   }
+  $display->setComponent('title', [
+    'type' => 'string',
+    'label' => 'hidden',
+    'weight' => -8,
+    'region' => 'content',
+    'settings' => ['link_to_entity' => FALSE],
+    'third_party_settings' => [],
+  ]);
   $display->removeComponent('field_voorraad');
   $display->removeComponent('field_categorie');
   $display->removeComponent('field_merk');

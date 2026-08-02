@@ -1,0 +1,36 @@
+/* FitLife Gym - gedeelde CTA- en knopstijlen (homepage, Over ons). */
+
+.fl-cta {
+  background: linear-gradient(150deg, #171728, #1c2f52);
+  border-radius: 28px;
+  padding: 60px 34px;
+  text-align: center;
+  color: #fff;
+  margin: 56px 0 24px;
+}
+.fl-cta h2 { color: #fff; font-weight: 800; margin: 0 0 8px; font-size: 2rem; }
+.fl-cta p { color: #c7ccd9; margin: 0 0 28px; font-size: 1.05rem; }
+
+.fl-btn, .fl-btn-outline {
+  display: inline-block;
+  padding: 14px 34px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-decoration: none;
+  margin: 6px 8px;
+  letter-spacing: 0.3px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.fl-btn { background: #e63946; color: #fff; }
+.fl-btn:hover {
+  background: #e03131; color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(230, 57, 70, 0.35);
+  text-decoration: none;
+}
+.fl-btn-outline { border: 2px solid #fff; color: #fff; padding: 12px 34px; }
+.fl-btn-outline:hover {
+  background: #fff; color: #1a1a2e;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
